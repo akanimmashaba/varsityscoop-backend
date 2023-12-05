@@ -39,6 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'taggit',
+    'articles',
+    'institutions',
+
+    'rest_framework',
+    # 'drf_spectacular',
+    'djoser',
+    'social_django',          # Not needed to add but pip install required. Adding it here will create additional acces to social user via admin
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist'
 ]
 
 MIDDLEWARE = [
