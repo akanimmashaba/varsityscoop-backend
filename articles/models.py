@@ -1,12 +1,13 @@
 from django.db import models
 from accounts.models import Profile
 from django.conf import settings
-# from cloudinary_storage.storage import RawMediaCloudinaryStorage
-# from cloudinary_storage.storage import VideoMediaCloudinaryStorage
-# from cloudinary_storage.validators import validate_video
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
+from cloudinary_storage.storage import VideoMediaCloudinaryStorage
+from cloudinary_storage.validators import validate_video
 from taggit.managers import TaggableManager
 from django.utils import timezone
 from django.utils.text import slugify
+
 
 # Create your models here.
 
@@ -73,9 +74,9 @@ class Article(AtrributesAbstract):
     status = models.CharField(max_length=1,choices=StatusOptions.choices, default=StatusOptions.DRAFTED)
     related_Articles = models.ManyToManyField('self',blank=True)
     tags = TaggableManager(blank=True)
-    # image = models.ImageField(upload_to='images/',null=True, blank=True)
-    # raw_file = models.FileField(upload_to='raw/', null=True, blank=True, storage=RawMediaCloudinaryStorage())
-    # video = models.FileField(upload_to='videos/',null=True, blank=True, storage=VideoMediaCloudinaryStorage(),validators=[validate_video])
+    image = models.ImageField(upload_to='images/',null=True, blank=True)
+    raw_file = models.FileField(upload_to='raw/', null=True, blank=True, storage=RawMediaCloudinaryStorage())
+    video = models.FileField(upload_to='videos/',null=True, blank=True, storage=VideoMediaCloudinaryStorage(),validators=[validate_video])
     # custom_field = models.JSONField(default=dict)
 
     objects = ArticleManager()
@@ -86,7 +87,7 @@ class Article(AtrributesAbstract):
     def save(self, *args, **kwargs):
         # Auto-generate slug from the title and append created_at
         if not self.slug:
-            date_suffix = self.created_at.strftime("%Y%m%d")
+            date_suffix = self.created_at.strftime("%m%d%S")
             self.slug = f"{slugify(self.title)}-{date_suffix}"
 
         super().save(*args, **kwargs)
