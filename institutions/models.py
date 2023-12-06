@@ -40,20 +40,17 @@ class Application(models.Model):
     def __str__(self):
         return f'{self.institution.abbreviation} - application'
     
-    @property
     def get_application_fee(self):
         if self.fee < 1:
             return f'free'.capitalize()
         return str(self.fee)
     
-    @property
     def is_application_period_open(self):
         current_date = timezone.now().date()
         if self.opening_date and self.closing_date:
             if self.opening_date <= current_date <= self.closing_date:
                 return True
         return False
-    @property
     def is_late_application_period_open(self):
         if self.late_opening_date and self.late_closing_date:
             current_date = timezone.now().date()
@@ -62,7 +59,6 @@ class Application(models.Model):
         return False
 
 
-    @property
     def get_application_period(self):
         if self.opening_date and self.closing_date:
             context = {
@@ -76,7 +72,6 @@ class Application(models.Model):
                 }
             return context
 
-    @property
     def get_late_application_period(self):
         if self.late_opening_date and self.late_closing_date:
             context = {
