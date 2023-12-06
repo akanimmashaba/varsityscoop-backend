@@ -1,7 +1,7 @@
 from django.db import models
-# from cloudinary_storage.storage import RawMediaCloudinaryStorage
-# from cloudinary_storage.storage import VideoMediaCloudinaryStorage
-# from cloudinary_storage.validators import validate_video
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
+from cloudinary_storage.storage import VideoMediaCloudinaryStorage
+from cloudinary_storage.validators import validate_video
 from django.utils import timezone
 import uuid
 
@@ -20,8 +20,8 @@ class Institution(models.Model):
     website = models.URLField()
     description = models.CharField(max_length=255)
     content = models.TextField()
-    # image = models.ImageField(upload_to='images/', null=True, blank=True)
-    # raw_file = models.FileField(upload_to='raw/', null=True,blank=True, storage=RawMediaCloudinaryStorage())
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    raw_file = models.FileField(upload_to='raw/', null=True,blank=True, storage=RawMediaCloudinaryStorage())
     Institution_type = models.CharField(max_length=3,choices=InstitutionTypes.choices, default=InstitutionTypes.UNIVERSITY)
     
     

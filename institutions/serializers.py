@@ -55,8 +55,8 @@ class InstitutionCreationSerializer(serializers.ModelSerializer):
             'website',
             'description',
             'content',
-            # 'image',
-            # 'raw_file',
+            'image',
+            'raw_file',
             'Institution_type',
             'application',  # Include the serialized Application data
         )
@@ -107,8 +107,8 @@ class InstitutionSerializer(serializers.ModelSerializer):
             'website',
             'description',
             'content',
-            # 'image',
-            # 'raw_file',
+            'image',
+            'raw_file',
             'Institution_type',
             'application',  # Include the serialized Application data
         )
