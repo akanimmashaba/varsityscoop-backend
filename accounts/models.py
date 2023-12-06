@@ -7,6 +7,9 @@ from django.conf import settings
 from django.urls import reverse
 from django.contrib.auth.models import Group
 
+
+
+
 class AccountManager(BaseUserManager):
     use_in_migrations = True
 

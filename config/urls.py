@@ -15,8 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
+from rest_framework_simplejwt.views import TokenBlacklistView
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path(r'admin/', admin.site.urls),
+    path(r'api/v1/auth/', include('djoser.urls')),
+    path(r'api/v1/auth/', include('djoser.urls.jwt')),
+    path(r'api/v1/auth/jwt/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
+    path(r'api/v1/auth/', include('djoser.social.urls')),
+    path(r'api/v1/', include('institutions.urls')),
+    path(r'api/v1/', include('articles.urls')),
 ]

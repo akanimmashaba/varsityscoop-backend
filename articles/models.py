@@ -68,7 +68,7 @@ class Article(AtrributesAbstract):
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     co_author = models.ManyToManyField(settings.AUTH_USER_MODEL,blank=True, related_name='co_authors')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,related_name='articles', on_delete=models.CASCADE)
     content = models.TextField()
     status = models.CharField(max_length=1,choices=StatusOptions.choices, default=StatusOptions.DRAFTED)
     related_Articles = models.ManyToManyField('self',blank=True)
