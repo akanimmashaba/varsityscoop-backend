@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
 
-WORKDIR /portfolio
+WORKDIR /varsityscoop
 RUN apt-get update
 RUN apt-get install libmagic1 -y
 

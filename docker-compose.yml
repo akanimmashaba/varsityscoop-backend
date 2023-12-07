@@ -9,7 +9,7 @@ services:
       - "8700:8700"
     command: ["sh", "./start.sh"]
     volumes:
-      - .:/api
+      - .:/varsityscoop
     env_file:
       - .env
     restart: always
