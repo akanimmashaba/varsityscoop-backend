@@ -10,24 +10,27 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
-import datetime
 from datetime import timedelta
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+# env = environ.Env.read_env()
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u3ok%=rfwl5y+6)vrwzgne!asn$kt1wf8^#i0j)cob+)_c$u9h'
+SECRET_KEY = os.getenv('SECRET_KEY',"hh(!)*aeeiovm2&23x&3e2jkhy&$&86dmpc-d*189qpziqryp5")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', default=False)
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_HOSTS') else ["localhost","127.0.0.1"]
 
-ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'accounts.Account'
 
@@ -44,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cloudinary',
     'taggit',
-    
+
     'accounts',
     'articles',
     'institutions',
@@ -60,6 +63,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     'social_django.middleware.SocialAuthExceptionMiddleware',
@@ -149,7 +153,6 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend'
 )
 
@@ -166,7 +169,7 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_ACTIVATION_EMAIL': False,
     'SERIALIZERS': {
         'activation': 'djoser.serializers.ActivationSerializer',
         'password_reset': 'djoser.serializers.SendEmailResetSerializer',
@@ -182,36 +185,23 @@ DJOSER = {
         'user_create': 'djoser.serializers.UserCreateSerializer',
         'user_create_password_retype': 'djoser.serializers.UserCreatePasswordRetypeSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
-        'user': 'djoser.serializers.UserSerializer',
-        'current_user': 'djoser.serializers.UserSerializer',
+        'user': 'accounts.serializers.CustomUserSerializer',
+        'current_user': 'accounts.serializers.CustomUserSerializer',
         'token': 'djoser.serializers.TokenSerializer',
         'token_create': 'djoser.serializers.TokenCreateSerializer',
         }
 }
 
 
-REST_FRAMEWORK = {
-    # YOUR SETTINGS
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-}
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
+    'TITLE': 'Varsityscoop API',
+    'DESCRIPTION': 'varsityscoop api end points',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
 }
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
-CORS_ORIGIN_WHITELIST = [
-     "http://localhost:3000",
-     "http://127.0.0.1:3000", 
-]
 
-CORS_ALLOW_CREDENTIALS = True
 
 
 REST_FRAMEWORK = {
@@ -227,9 +217,9 @@ REST_FRAMEWORK = {
 }
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': '',  # required
-    'API_KEY': '',  # required
-    'API_SECRET': '',  # required
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME', '') != None,
+    'API_KEY':  os.environ.get('API_KEY', '') != None,
+    'API_SECRET': os.environ.get('API_SECRET', '') != None,
     'SECURE': True,
     'MEDIA_TAG': 'media',
     'INVALID_VIDEO_ERROR_MESSAGE': 'Please upload a valid video file.',
@@ -243,3 +233,20 @@ CLOUDINARY_STORAGE = {
     'MAGIC_FILE_PATH': 'magic',
     'PREFIX': MEDIA_URL
 }
+
+
+
+# Set a value for HTTP Strict Transport Security (HSTS) if using SSL/TLS
+SECURE_HSTS_SECONDS = 31536000  # Example: 1 year
+
+# Enforce SSL redirection for the entire site
+SECURE_SSL_REDIRECT = True
+
+# Use secure-only session cookies
+SESSION_COOKIE_SECURE = True
+
+# Use secure-only CSRF cookies
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+CSRF_TRUSTED_ORIGINS = ['https://akanimashaba.co.za']

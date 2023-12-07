@@ -8,11 +8,14 @@ from .serializers import (
 )
 from rest_framework import permissions
 from rest_framework.response import Response
+from djoser.permissions import CurrentUserOrAdminOrReadOnly
+
 
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [CurrentUserOrAdminOrReadOnly]
+
     lookup_field = 'slug'
     # lookup_url_kwarg = 'slug'
 
@@ -24,7 +27,8 @@ class ArticleViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     lookup_field = 'slug'
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [CurrentUserOrAdminOrReadOnly]
+
 
 
     def get_serializer_class(self):

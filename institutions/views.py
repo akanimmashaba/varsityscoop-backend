@@ -1,12 +1,12 @@
-from django.shortcuts import render
-from rest_framework import viewsets,permissions
-from .models import Institution, Application
-from .serializers import InstitutionSerializer,InstitutionCreationSerializer,ApplicationSerializer,ApplicationCreationSerializer
+from rest_framework import viewsets
+from .models import Institution
+from .serializers import InstitutionSerializer,InstitutionCreationSerializer
+from djoser.permissions import CurrentUserOrAdminOrReadOnly
 
 # Create your views here.
 class InstituteViewSet(viewsets.ModelViewSet):
     queryset = Institution.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [CurrentUserOrAdminOrReadOnly]
     lookup_field = 'abbreviation'
 
 

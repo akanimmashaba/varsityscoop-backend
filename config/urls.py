@@ -22,13 +22,13 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 urlpatterns = [
     path(r'admin/', admin.site.urls),
-    path(r'', include('institutions.urls')),
-    path(r'', include('articles.urls')),
-    path(r'api/v1/auth/', include('djoser.urls')),
-    path(r'api/v1/auth/', include('djoser.urls.jwt')),
-    path(r'api/v1/auth/jwt/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
-    path(r'api/v1/auth/', include('djoser.social.urls')),
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path(r'api/auth/', include('djoser.urls')),
+    path(r'api/auth/', include('djoser.urls.jwt')),
+    path(r'api/auth/jwt/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
+    path(r'api/auth/', include('djoser.social.urls')),
+    path(r'api/v1/', include('institutions.urls')),
+    path(r'api/v1/', include('articles.urls')),
+    path('api/v1/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # path('api/v1/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/v1/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
