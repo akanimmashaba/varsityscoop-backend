@@ -28,11 +28,11 @@ environ.read_env()
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', default=False)
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_HOSTS') else ["localhost","127.0.0.1"]
+DEBUG = os.getenv('DJANGO_DEBUG', default=False)
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_HOSTS') else ["localhost","127.0.0.1"]
 
 
 AUTH_USER_MODEL = 'accounts.Account'
@@ -103,12 +103,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 if not DEBUG:
     DATABASES = {
     'default': {
-        'ENGINE': os.environ.get("SQL_ENGINE"),
-        'HOST': os.environ.get("SQL_HOST"),
-        'NAME': os.environ.get("SQL_NAME"),
-        'USER': os.environ.get("SQL_USER"),
-        'PORT': os.environ.get("SQL_PORT"),
-        'PASSWORD': os.environ.get("SQL_PASSWORD"),
+        'ENGINE': os.getenv("SQL_ENGINE"),
+        'HOST': os.getenv("SQL_HOST"),
+        'NAME': os.getenv("SQL_NAME"),
+        'USER': os.getenv("SQL_USER"),
+        'PORT': os.getenv("SQL_PORT"),
+        'PASSWORD': os.getenv("SQL_PASSWORD"),
     }
 }
 else: 
@@ -231,9 +231,9 @@ REST_FRAMEWORK = {
 }
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUD_NAME', '') != None,
-    'API_KEY':  os.environ.get('API_KEY', '') != None,
-    'API_SECRET': os.environ.get('API_SECRET', '') != None,
+    'CLOUD_NAME': os.getenv('CLOUD_NAME', '') != None,
+    'API_KEY':  os.getenv('API_KEY', '') != None,
+    'API_SECRET': os.getenv('API_SECRET', '') != None,
     'SECURE': True,
     'MEDIA_TAG': 'media',
     'INVALID_VIDEO_ERROR_MESSAGE': 'Please upload a valid video file.',
