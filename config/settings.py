@@ -12,19 +12,25 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
-
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+import environ
+import os
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-# env = environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
+environ = environ.Env()
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY',"hh(!)*aeeiovm2&23x&3e2jkhy&$&86dmpc-d*189qpziqryp5")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -97,13 +103,24 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
+if not DEBUG:
+    DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ.get("SQL_ENGINE"),
+        'HOST': os.environ.get("SQL_HOST"),
+        'NAME': os.environ.get("SQL_NAME"),
+        'USER': os.environ.get("SQL_USER"),
+        'PORT': os.environ.get("SQL_PORT"),
+        'PASSWORD': os.environ.get("SQL_PASSWORD"),
     }
 }
+else: 
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation

@@ -1,0 +1,29 @@
+version: "3.9"
+
+
+services:
+  api:
+    build:
+      context: .
+    ports:
+      - "8700:8700"
+    command: ["sh", "./start.sh"]
+    volumes:
+      - .:/api
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      - api_postgres_db
+
+  api_postgres_db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${SQL_NAME}
+      - POSTGRES_USER=${SQL_USER}
+      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+
+volumes:
+  postgres_data:
